@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=Hoangn8n@890
+      - N8N_HOST=botdinhduong-n8n.io.vn
+      - N8N_PORT=5678
+      - WEBHOOK_URL=https://botdinhduong-n8n.io.vn/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.n8n.rule=Host(`botdinhduong-n8n.io.vn`)"
+      - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.http.routers.n8n.tls.certresolver=letsencrypt"
+      - "traefik.port=5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:
